@@ -9,31 +9,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+    private final ProductService service;
 
-    private final ProductService productService;
-    public ProductController(ProductService productService) { this.productService = productService; }
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public Product create(@RequestBody Product p) {
-        return productService.save(p);
+        return service.save(p);
     }
 
     @GetMapping
-    public List<Product> all() { return productService.findAll(); }
+    public List<Product> all() {
+        return service.findAll();
+    }
 
     @GetMapping("/{id}")
-    public Product one(@PathVariable String id) { return productService.findById(id); }
-
-    @GetMapping("/by-consumer/{consumerId}")
-    public List<Product> byConsumer(@PathVariable String consumerId) {
-        return productService.findByConsumerId(consumerId);
+    public Product one(@PathVariable String id) {
+        return service.findById(id);
     }
 
     @PutMapping("/{id}")
     public Product update(@PathVariable String id, @RequestBody Product p) {
-        return productService.update(id, p);
+        return service.update(id, p);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) { productService.delete(id); }
+    public void delete(@PathVariable String id) {
+        service.delete(id);
+    }
 }
